@@ -7,11 +7,14 @@ import matplotlib.pyplot as plt
 
 st.title("AI Startup Word Cloud")
 
-# Airtable credentials from Streamlit secrets
+# Auto refresh every 5 seconds
+st.autorefresh(interval=5000)
+
+# Secrets from Streamlit
 API_KEY = st.secrets["AIRTABLE_API_KEY"]
 BASE_ID = st.secrets["BASE_ID"]
 
-TABLE_NAME = "Data_Collection_Form"
+TABLE_NAME = "AI%20Startup%20Competition%20Progress%20Form%202025"
 
 url = f"https://api.airtable.com/v0/{BASE_ID}/{TABLE_NAME}"
 
@@ -22,28 +25,36 @@ headers = {
 response = requests.get(url, headers=headers)
 data_json = response.json()
 
-# Handle API errors safely
+# Error handling
 if "records" not in data_json:
     st.error("Error retrieving Airtable data")
     st.write(data_json)
     st.stop()
 
-data = data_json["records"]
+records = data_json["records"]
 
 words = []
 
-for record in data:
+for record in records:
     fields = record.get("fields", {})
+    if "AI word" in fields:
+        words.append(fields["AI word"].lower())
 
-    if "AI word" in fields and fields["AI word"]:
-        words.append(str(fields["AI word"]).lower())
+if len(words) == 0:
+    st.warning("No words submitted yet.")
+    st.stop()
 
-# Count frequency
+# Count frequencies
 word_counts = Counter(words)
 
+# Leaderboard
 df = pd.DataFrame(word_counts.items(), columns=["Word", "Frequency"])
 df = df.sort_values("Frequency", ascending=False)
 
+st.subheader("Top Words")
+st.dataframe(df)
+
+# Word cloud
 text = " ".join(words)
 
 wordcloud = WordCloud(
@@ -51,11 +62,10 @@ wordcloud = WordCloud(
     height=800,
     background_color="white",
     colormap="Greys",
-    max_words=300,
-    prefer_horizontal=0.9
+    max_words=200
 ).generate(text)
 
-fig, ax = plt.subplots(figsize=(16,8))
+fig, ax = plt.subplots(figsize=(14,7))
 ax.imshow(wordcloud, interpolation="bilinear")
 ax.axis("off")
 
