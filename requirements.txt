@@ -3,3 +3,4 @@ pandas
 pyairtable
 wordcloud
 matplotlib
+requests
