@@ -4,3 +4,4 @@ pyairtable
 wordcloud
 matplotlib
 requests
+streamlit-autorefresh

@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_autorefresh import st_autorefresh
 import pandas as pd
 import requests
 from collections import Counter
@@ -7,8 +8,7 @@ import matplotlib.pyplot as plt
 
 st.title("AI Startup Word Cloud")
 
-# Auto refresh every 5 seconds
-st.autorefresh(interval=5000)
+st_autorefresh(interval=5000, key="refresh")
 
 # Secrets from Streamlit
 API_KEY = st.secrets["AIRTABLE_API_KEY"]
