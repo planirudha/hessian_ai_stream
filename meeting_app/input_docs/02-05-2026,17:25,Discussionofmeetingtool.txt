@@ -1,0 +1,16 @@
+Attendees: Anirudha, Priya, Rahul, Sana
+Topic: Meeting tool and note-taking workflow for Zoom and Google Meet.
+
+Agenda:
+1) Decide plugin strategy for transcript extraction.
+2) Standardize summary format.
+3) Plan Jira integration for action items.
+
+Discussion:
+- Zoom app marketplace note taker options and meeting transcript APIs were discussed.
+- Google Meet transcript exports and extension-based capture were compared.
+- Team agreed that first version should support direct text/doc uploads, then real-time stream support.
+- Need summary output with date, title, attendees, agenda, discussion points and checklist.
+- Similar points in notes should be merged to avoid repetition.
+- Future feature: generate next meeting agenda from unresolved items.
+- Jira integration should happen after approval, with auto-ticket draft creation.
